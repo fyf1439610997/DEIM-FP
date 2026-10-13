@@ -4,6 +4,12 @@ DEIM-FP是MIDI中的课堂视觉检测模型。模型以DEIM为基础，在HGNet
 
 DEIM-FP is the classroom visual detector in MIDI. Built on DEIM, it incorporates Pinwheel-Shaped Convolution (PSConv) into the HGNetv2-B0 backbone and replaces the original feature-fusion component with FDPN. These components combine multidirectional local feature extraction with cross-scale feature integration.
 
+## 训练过程数据 / Training Records
+
+六组实验的原始训练日志、运行参数与逐轮指标位于 **[experiments/SCB](experiments/SCB/README.md)**。可直接查看[结果汇总](experiments/SCB/summary.csv)；各子目录提供`log.txt`、`args.json`和`metrics.csv`，不包含权重。
+
+Original training logs, runtime configurations, and per-epoch metrics for all six runs are available in **[experiments/SCB](experiments/SCB/README.md)**. See the [summary](experiments/SCB/summary.csv) for final-epoch and historical-best validation AP. No weights are included.
+
 ## 模型结构 / Architecture
 
 ![DEIM-FP architecture](figures/DEIM_FP_architecture.png)
@@ -27,6 +33,11 @@ The table reports validation results on the SCB classroom subset for hand raisin
 | DEIM + PSConv | 0.387 | 4.24 | 8.84 |
 | DEIM + FDPN | 0.418 | 4.67 | 11.27 |
 | **DEIM-FP** | **0.436** | **5.19** | **13.19** |
+
+上述AP对应各组最后一轮日志保留三位小数的结果，历史最佳值另见[训练记录说明](experiments/SCB/README.md)。
+
+The AP values above correspond to the final logged epoch, rounded to three decimal places. Historical maxima are listed separately in the [training records](experiments/SCB/README.md).
+
 
 论文使用5,193张训练图像和1,671张验证图像，输入尺寸为640×640，训练160轮，batch size为8，优化器为AdamW，主学习率为0.0008，随机种子为42。DEIM-FP配置关闭骨干网络预训练。
 
@@ -86,6 +97,8 @@ python train.py -c configs/deim/deim_hgnetv2_psconv_fdpn_n_custom.yml --test-onl
 代码按训练阶段保存`best_stg1.pth`和`best_stg2.pth`。请将命令中的路径替换为实际需要评估的模型文件。
 
 The code saves `best_stg1.pth` and `best_stg2.pth` for the two training stages. Replace the checkpoint path with the model you intend to evaluate.
+
+该命令评估指定检查点，并不等同于论文采用的最后一轮日志结果。 / This command evaluates the specified checkpoint; its result is not necessarily the final-epoch value reported in the manuscript.
 
 图像推理 / Image inference:
 

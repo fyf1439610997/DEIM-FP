@@ -1,0 +1,354 @@
+{
+    "task": "detection",
+    "_model": null,
+    "_postprocessor": null,
+    "_criterion": null,
+    "_optimizer": null,
+    "_lr_scheduler": null,
+    "_lr_warmup_scheduler": null,
+    "_train_dataloader": null,
+    "_val_dataloader": null,
+    "_ema": null,
+    "_scaler": null,
+    "_train_dataset": null,
+    "_val_dataset": null,
+    "_collate_fn": null,
+    "_evaluator": null,
+    "_writer": null,
+    "num_workers": 0,
+    "batch_size": null,
+    "_train_batch_size": null,
+    "_val_batch_size": null,
+    "_train_shuffle": null,
+    "_val_shuffle": null,
+    "resume": null,
+    "tuning": null,
+    "path": null,
+    "epoches": 120,
+    "last_epoch": -1,
+    "lrsheduler": "flatcosine",
+    "lr_gamma": 1,
+    "no_aug_epoch": 0,
+    "warmup_iter": 2000,
+    "flat_epoch": 4000000,
+    "use_amp": false,
+    "use_ema": true,
+    "ema_decay": 0.9999,
+    "ema_warmups": 2000,
+    "sync_bn": true,
+    "clip_max_norm": 0.1,
+    "find_unused_parameters": true,
+    "seed": 42,
+    "print_freq": 20,
+    "checkpoint_freq": 4,
+    "plot_train_batch_freq": 12,
+    "output_dir": "/root/autodl-fs/outputs/rtdetrv2_r18vd_120e_custom",
+    "summary_dir": null,
+    "device": "",
+    "verbose_type": "origin",
+    "cache_imgsz": 960,
+    "ram_cache": false,
+    "yolo_metrice": false,
+    "prune_model": false,
+    "kd_loss_type": null,
+    "kd_loss_decay": null,
+    "kd_loss_epoch": 1.0,
+    "logical_loss_type": "single",
+    "logical_loss_ratio": 1.0,
+    "teacher_kd_layers": null,
+    "student_kd_layers": null,
+    "feature_loss_type": "cwd",
+    "feature_loss_ratio": 1.0,
+    "yaml_cfg": {
+        "task": "detection",
+        "evaluator": {
+            "type": "CocoEvaluator",
+            "iou_types": [
+                "bbox"
+            ]
+        },
+        "num_classes": 3,
+        "remap_mscoco_category": false,
+        "train_dataloader": {
+            "type": "DataLoader",
+            "dataset": {
+                "type": "CocoDetection",
+                "img_folder": "/root/autodl-fs/SCB5-Handrise-Read-write-2024-9-17/images/train",
+                "ann_file": "/root/autodl-fs/SCB5-Handrise-Read-write-2024-9-17/annotations/train.json",
+                "return_masks": false,
+                "transforms": {
+                    "type": "Compose",
+                    "ops": [
+                        {
+                            "type": "RandomPhotometricDistort",
+                            "p": 0.5
+                        },
+                        {
+                            "type": "RandomZoomOut",
+                            "fill": 0
+                        },
+                        {
+                            "type": "RandomIoUCrop",
+                            "p": 0.8
+                        },
+                        {
+                            "type": "SanitizeBoundingBoxes",
+                            "min_size": 1
+                        },
+                        {
+                            "type": "RandomHorizontalFlip"
+                        },
+                        {
+                            "type": "Resize",
+                            "size": [
+                                640,
+                                640
+                            ]
+                        },
+                        {
+                            "type": "SanitizeBoundingBoxes",
+                            "min_size": 1
+                        },
+                        {
+                            "type": "ConvertPILImage",
+                            "dtype": "float32",
+                            "scale": true
+                        },
+                        {
+                            "type": "ConvertBoxes",
+                            "fmt": "cxcywh",
+                            "normalize": true
+                        }
+                    ],
+                    "policy": {
+                        "name": "stop_epoch",
+                        "epoch": 117,
+                        "ops": [
+                            "RandomPhotometricDistort",
+                            "RandomZoomOut",
+                            "RandomIoUCrop"
+                        ]
+                    }
+                }
+            },
+            "shuffle": true,
+            "num_workers": 4,
+            "drop_last": true,
+            "pin_memory": true,
+            "collate_fn": {
+                "type": "BatchImageCollateFunction",
+                "base_size": 640,
+                "base_size_repeat": 3,
+                "stop_epoch": 72
+            },
+            "total_batch_size": 4
+        },
+        "val_dataloader": {
+            "type": "DataLoader",
+            "dataset": {
+                "type": "CocoDetection",
+                "img_folder": "/root/autodl-fs/SCB5-Handrise-Read-write-2024-9-17/images/val",
+                "ann_file": "/root/autodl-fs/SCB5-Handrise-Read-write-2024-9-17/annotations/val.json",
+                "return_masks": false,
+                "transforms": {
+                    "type": "Compose",
+                    "ops": [
+                        {
+                            "type": "Resize",
+                            "size": [
+                                640,
+                                640
+                            ]
+                        },
+                        {
+                            "type": "ConvertPILImage",
+                            "dtype": "float32",
+                            "scale": true
+                        }
+                    ]
+                }
+            },
+            "shuffle": false,
+            "num_workers": 4,
+            "drop_last": false,
+            "pin_memory": true,
+            "collate_fn": {
+                "type": "BatchImageCollateFunction"
+            },
+            "total_batch_size": 4
+        },
+        "print_freq": 20,
+        "output_dir": "/root/autodl-fs/outputs/rtdetrv2_r18vd_120e_custom",
+        "checkpoint_freq": 4,
+        "plot_train_batch_freq": 12,
+        "sync_bn": true,
+        "find_unused_parameters": true,
+        "verbose_type": "origin",
+        "use_amp": false,
+        "scaler": {
+            "type": "GradScaler",
+            "enabled": true
+        },
+        "use_ema": true,
+        "ema": {
+            "type": "ModelEMA",
+            "decay": 0.9999,
+            "warmups": 2000,
+            "start": 0
+        },
+        "cache_imgsz": 960,
+        "ram_cache": false,
+        "yolo_metrice": false,
+        "epoches": 120,
+        "clip_max_norm": 0.1,
+        "optimizer": {
+            "type": "AdamW",
+            "params": [
+                {
+                    "params": "^(?=.*(?:norm|bn)).*$",
+                    "weight_decay": 0.0
+                }
+            ],
+            "lr": 0.0001,
+            "betas": [
+                0.9,
+                0.999
+            ],
+            "weight_decay": 0.0001
+        },
+        "lr_scheduler": {
+            "type": "MultiStepLR",
+            "milestones": [
+                1000
+            ],
+            "gamma": 0.1
+        },
+        "lr_warmup_scheduler": {
+            "type": "LinearWarmup",
+            "warmup_duration": 2000
+        },
+        "model": "DEIM",
+        "criterion": "DEIMCriterion",
+        "postprocessor": "PostProcessor",
+        "use_focal_loss": true,
+        "eval_spatial_size": [
+            640,
+            640
+        ],
+        "DEIM": {
+            "backbone": "PResNet",
+            "encoder": "HybridEncoder",
+            "decoder": "RTDETRTransformerv2"
+        },
+        "lrsheduler": "flatcosine",
+        "lr_gamma": 1,
+        "warmup_iter": 2000,
+        "flat_epoch": 4000000,
+        "no_aug_epoch": 0,
+        "PResNet": {
+            "depth": 18,
+            "variant": "d",
+            "freeze_at": -1,
+            "return_idx": [
+                1,
+                2,
+                3
+            ],
+            "num_stages": 4,
+            "freeze_norm": false,
+            "pretrained": false,
+            "local_model_dir": "./weight/rtdetrv2_pytorch/INK1k/"
+        },
+        "HybridEncoder": {
+            "in_channels": [
+                128,
+                256,
+                512
+            ],
+            "feat_strides": [
+                8,
+                16,
+                32
+            ],
+            "hidden_dim": 256,
+            "use_encoder_idx": [
+                2
+            ],
+            "num_encoder_layers": 1,
+            "nhead": 8,
+            "dim_feedforward": 1024,
+            "dropout": 0.0,
+            "enc_act": "gelu",
+            "expansion": 0.5,
+            "depth_mult": 1,
+            "act": "silu",
+            "version": "rt_detrv2"
+        },
+        "RTDETRTransformerv2": {
+            "feat_channels": [
+                256,
+                256,
+                256
+            ],
+            "feat_strides": [
+                8,
+                16,
+                32
+            ],
+            "hidden_dim": 256,
+            "num_levels": 3,
+            "num_layers": 3,
+            "num_queries": 300,
+            "num_denoising": 100,
+            "label_noise_ratio": 0.5,
+            "box_noise_scale": 1.0,
+            "eval_idx": -1,
+            "num_points": [
+                4,
+                4,
+                4
+            ],
+            "cross_attn_method": "default",
+            "query_select_method": "default"
+        },
+        "PostProcessor": {
+            "num_top_queries": 300
+        },
+        "DEIMCriterion": {
+            "weight_dict": {
+                "loss_vfl": 1,
+                "loss_bbox": 5,
+                "loss_giou": 2
+            },
+            "losses": [
+                "vfl",
+                "boxes"
+            ],
+            "alpha": 0.75,
+            "gamma": 2.0,
+            "use_uni_set": false,
+            "matcher": {
+                "type": "HungarianMatcher",
+                "weight_dict": {
+                    "cost_class": 2,
+                    "cost_bbox": 5,
+                    "cost_giou": 2
+                },
+                "alpha": 0.25,
+                "gamma": 2.0
+            }
+        },
+        "__include__": [
+            "../dataset/custom_detection.yml",
+            "../runtime.yml",
+            "../base/dataloader_dfine.yml",
+            "../base/rt_optimizer.yml",
+            "../base/rtdetrv2_r50vd.yml"
+        ],
+        "config": "configs/rtdetrv2/rtdetrv2_r18vd_120e_custom.yml",
+        "seed": 42,
+        "test_only": false,
+        "print_method": "builtin",
+        "print_rank": 0
+    }
+}

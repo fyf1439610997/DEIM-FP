@@ -1,0 +1,14 @@
+{
+  "deim_hgnetv2_n_custom/log.txt": "0e3bab10dd06182317b4508bd9450f9f03828359f90e124192a24e5d83015ca1",
+  "deim_hgnetv2_n_custom/args.json": "bcaabd17e732bd12845ac82c5d769f5be1a5e0b771c094676a90b3c71f906c9f",
+  "deim_hgnetv2_psconv_n_custom/log.txt": "a97f49c9c5e2e0ad1d48fe6fa99936b887fe73a1abd11269c2b348601231043c",
+  "deim_hgnetv2_psconv_n_custom/args.json": "d35f73b1584e963464bf8d006269b9bd92675e786e374a00f2b327f2e4f51c27",
+  "deim_hgnetv2_fdpn_n_custom/log.txt": "434c2550c34ebc03be539cbd1747cf8d1076a467021941fc2ebe623f58880683",
+  "deim_hgnetv2_fdpn_n_custom/args.json": "2c847417698cfb4a8c1cfe4666bd6b3f50f49b9de126727e88ae70d16de3f313",
+  "deim_hgnetv2_psconv_fdpn_n_custom/log.txt": "06938d8dd5ef094fdb2133ed78af3ecebb99d0c0c48e8b90e2dc1a89df02b50e",
+  "deim_hgnetv2_psconv_fdpn_n_custom/args.json": "50991c9d569d4bf452476aaf8318a013033321ec56215decec6f3c75a09bc4b8",
+  "dfine_hgnetv2_n_custom/log.txt": "2cdc26256e9abcd237643dc6c23a87963712f9c3d6f6621f2e4bdc5af3716698",
+  "dfine_hgnetv2_n_custom/args.json": "a3cc37f2fc7987e757201d1a378369f55d80a1b65930ff3819824cec2dff1006",
+  "rtdetrv2_r18vd_120e_custom/log.txt": "d94375567f4d39a886c4a815161c43e25b1e7962e9c3efa94bfcc9ef4c36a67c",
+  "rtdetrv2_r18vd_120e_custom/args.json": "c45b011e33c2beb23bda485ff40ed861acaf9e76c1fa04f728344d9e1938edac"
+}
