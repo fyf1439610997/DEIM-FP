@@ -40,9 +40,9 @@ DEIM-FP在四组DEIM组件实验中取得最高AP；RT-DETRv2-R18在六组比较
 
 DEIM-FP achieves the highest AP among the four DEIM ablation configurations; RT-DETRv2-R18 achieves the highest AP among all six runs. See the [training records](experiments/SCB/README.md) for full-precision values, best epochs, final-epoch references, and original logs.
 
-论文使用5,193张训练图像和1,671张验证图像，输入尺寸为640×640，训练160轮，batch size为8，优化器为AdamW，主学习率为0.0008，随机种子为42。DEIM-FP配置关闭骨干网络预训练。
+DEIM系列四组实验使用5,193张训练图像和1,671张验证图像，输入尺寸为640×640，训练160轮，batch size为8，优化器为AdamW，主学习率为0.0008，随机种子为42。DEIM-FP配置关闭骨干网络预训练。RT-DETRv2-R18训练120轮，batch size为4；各组具体设置见对应的`args.json`。
 
-The manuscript uses 5,193 training images and 1,671 validation images, an input size of 640×640, 160 epochs, a batch size of 8, AdamW with a main learning rate of 0.0008, and seed 42. Backbone pretraining is disabled in the DEIM-FP configuration.
+The four DEIM configurations use 5,193 training images and 1,671 validation images, an input size of 640×640, 160 epochs, a batch size of 8, AdamW with a main learning rate of 0.0008, and seed 42. Backbone pretraining is disabled in the DEIM-FP configuration. RT-DETRv2-R18 uses 120 epochs and a batch size of 4; see each run's `args.json` for its settings.
 
 ## 代码目录 / Code Structure
 

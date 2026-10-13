@@ -33,9 +33,9 @@ This repository summarizes each model using its **highest validation AP50:95 rec
 
 本仓库统一采用各模型训练过程中记录的**最高验证AP50:95**，不采用最后一轮结果作为主要汇总。DEIM-FP在四组DEIM组件实验中最高；六组模型中RT-DETRv2-R18最高。
 
-The final-epoch values remain available for tracing the training history. The previously submitted manuscript used final-epoch values; the repository now presents best-recorded results as the primary summary. These values are extracted from the archived validation logs, not from a new checkpoint evaluation.
+The final-epoch values remain available for tracing the training history. The primary summary uses best-recorded results extracted from the archived validation logs, not from a new checkpoint evaluation.
 
-最后一轮数值保留用于追溯训练历史。此前提交的论文使用最后一轮数值；本仓库现以最佳记录值为主要汇总。这里的数值提取自原始验证日志，不是重新评估检查点得到的结果。
+最后一轮数值保留用于追溯训练历史，主要汇总采用最佳记录值。这些数值提取自原始验证日志，不是重新评估检查点得到的结果。
 
 Epoch indices in this table are copied from `log.txt`. The training code can reload an earlier checkpoint during its second stage, affecting the saved `last_epoch` counter. That checkpoint field should not be substituted for the chronological epoch index in the log without verification.
 
