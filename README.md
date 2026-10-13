@@ -8,7 +8,7 @@ DEIM-FP is the classroom visual detector in MIDI. Built on DEIM, it incorporates
 
 六组实验的原始训练日志、运行参数与逐轮指标位于 **[experiments/SCB](experiments/SCB/README.md)**。可直接查看[结果汇总](experiments/SCB/summary.csv)；各子目录提供`log.txt`、`args.json`和`metrics.csv`，不包含权重。
 
-Original training logs, runtime configurations, and per-epoch metrics for all six runs are available in **[experiments/SCB](experiments/SCB/README.md)**. See the [summary](experiments/SCB/summary.csv) for final-epoch and historical-best validation AP. No weights are included.
+Original training logs, runtime configurations, and per-epoch metrics for all six runs are available in **[experiments/SCB](experiments/SCB/README.md)**. See the [summary](experiments/SCB/summary.csv) for best validation AP; final-epoch values are retained for reference. No weights are included.
 
 ## 模型结构 / Architecture
 
@@ -21,23 +21,24 @@ Original training logs, runtime configurations, and per-epoch metrics for all si
 - **PSConv**：通过非对称填充及水平、垂直卷积分支提取多方向局部特征。 / Extracts multidirectional local features through asymmetric padding and horizontal and vertical convolution branches.
 - **FDPN**：通过FocusFeature模块聚合不同尺度的特征，并沿自顶向下和自底向上的路径传递融合信息。 / Aggregates features at different scales through FocusFeature modules and propagates fused features along top-down and bottom-up paths.
 
-## 论文实验结果 / Results Reported in the Manuscript
+## 最佳验证结果 / Best Recorded Validation Results
 
-下表为SCB课堂数据子集上的验证集结果，检测类别为举手、阅读和书写。它不是表情识别实验结果，也不是本次整理代码后重新运行得到的结果。
+下表采用SCB课堂子集上各模型训练过程中记录的最高验证AP50:95，检测类别为举手、阅读和书写。各模型采用相同的最佳值汇总口径；这些是已有训练日志中的结果，不是表情识别结果或本次发布时重新评估得到的结果。
 
-The table reports validation results on the SCB classroom subset for hand raising, reading, and writing. These are the results reported in the manuscript, not facial-expression results or a new run of this release.
+The table uses the highest validation AP50:95 recorded for each model on the SCB classroom subset for hand raising, reading, and writing. The same best-recorded summary rule is applied to all models. These are archived training results, not facial-expression results or new evaluations performed for this release.
 
-| Model | mAP50:95 | Parameters (M) | GFLOPs |
+| Model | Best AP50:95 | Parameters (M) | GFLOPs |
 |---|---:|---:|---:|
 | DEIM | 0.394 | 3.72 | 7.12 |
-| DEIM + PSConv | 0.387 | 4.24 | 8.84 |
-| DEIM + FDPN | 0.418 | 4.67 | 11.27 |
-| **DEIM-FP** | **0.436** | **5.19** | **13.19** |
+| DEIM + PSConv | 0.391 | 4.24 | 8.84 |
+| DEIM + FDPN | 0.421 | 4.67 | 11.27 |
+| DEIM-FP | 0.437 | 5.19 | 13.19 |
+| D-FINE-n | 0.333 | 3.72 | 7.12 |
+| RT-DETRv2-R18 | 0.439 | 19.88 | 59.87 |
 
-上述AP对应各组最后一轮日志保留三位小数的结果，历史最佳值另见[训练记录说明](experiments/SCB/README.md)。
+DEIM-FP在四组DEIM组件实验中取得最高AP；RT-DETRv2-R18在六组比较中取得最高AP。完整精度、最佳轮次、最后一轮对照及原始日志见[训练记录](experiments/SCB/README.md)。
 
-The AP values above correspond to the final logged epoch, rounded to three decimal places. Historical maxima are listed separately in the [training records](experiments/SCB/README.md).
-
+DEIM-FP achieves the highest AP among the four DEIM ablation configurations; RT-DETRv2-R18 achieves the highest AP among all six runs. See the [training records](experiments/SCB/README.md) for full-precision values, best epochs, final-epoch references, and original logs.
 
 论文使用5,193张训练图像和1,671张验证图像，输入尺寸为640×640，训练160轮，batch size为8，优化器为AdamW，主学习率为0.0008，随机种子为42。DEIM-FP配置关闭骨干网络预训练。
 
@@ -98,7 +99,7 @@ python train.py -c configs/deim/deim_hgnetv2_psconv_fdpn_n_custom.yml --test-onl
 
 The code saves `best_stg1.pth` and `best_stg2.pth` for the two training stages. Replace the checkpoint path with the model you intend to evaluate.
 
-该命令评估指定检查点，并不等同于论文采用的最后一轮日志结果。 / This command evaluates the specified checkpoint; its result is not necessarily the final-epoch value reported in the manuscript.
+该命令评估指定检查点。上表的最佳AP取自原始逐轮验证日志；重新评估时需核对实际检查点与评估设置。 / This command evaluates the specified checkpoint. The best AP values above are extracted from the original per-epoch validation logs; verify the checkpoint and evaluation settings when re-evaluating a model.
 
 图像推理 / Image inference:
 
